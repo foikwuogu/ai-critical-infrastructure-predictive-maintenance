@@ -1,0 +1,13 @@
+services:
+  predictive-maintenance:
+    build: .
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: sqlite:///./data/maintenance.db
+    volumes:
+      - maintenance-data:/app/data
+      - maintenance-models:/app/models
+volumes:
+  maintenance-data:
+  maintenance-models:
