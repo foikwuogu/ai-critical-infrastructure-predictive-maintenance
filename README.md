@@ -41,7 +41,7 @@ python -m pytest -q
 python run.py
 ```
 
-Dashboard: http://127.0.0.1:8002/
+Dashboard: http://127.0.0.1:8003/
 API docs: http://127.0.0.1:8002/docs
 
 ## Scenarios
