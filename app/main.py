@@ -1,6 +1,7 @@
 from pathlib import Path
 from fastapi import FastAPI,Depends,HTTPException
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 from .database import Base,engine,SessionLocal,get_db
@@ -11,6 +12,7 @@ from .ml import train,importance,VERSION
 from .monitoring import quality,drift
 Base.metadata.create_all(bind=engine)
 app=FastAPI(title=APP_NAME,version=APP_VERSION)
+app.mount("/static",StaticFiles(directory=Path(__file__).parent/"static"),name="static")
 @app.on_event("startup")
 def startup():
     db=SessionLocal()

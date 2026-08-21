@@ -1,9 +1,43 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI Critical Infrastructure Predictive Maintenance</title><link rel="stylesheet" href="/static/style.css"></head><body>
-<header><div><h1>AI Critical Infrastructure Predictive Maintenance</h1><p>Synthetic OT/energy asset health • anomaly detection • failure risk • RUL</p></div><b>● AI monitoring laboratory</b></header>
-<main>
-<section class="metrics"><div><span>Assets</span><strong id="assets">0</strong></div><div><span>Critical</span><strong id="critical">0</strong></div><div><span>High</span><strong id="high">0</strong></div><div><span>Avg health</span><strong id="health">0</strong></div><div><span>Avg failure risk</span><strong id="failure">0%</strong></div></section>
-<section class="grid"><div class="panel"><h2>Fleet health</h2><div id="cards" class="cards"></div></div><div class="panel"><h2>Scenario simulator</h2><p>Inject synthetic degradation only.</p><div class="buttons"><button data-s="healthy_fleet">Healthy</button><button data-s="bearing_degradation">Bearing</button><button data-s="pump_cavitation">Cavitation</button><button data-s="compressor_overheat">Overheat</button><button data-s="sensor_drift">Sensor drift</button></div><button id="reset">Reset</button><pre id="result"></pre></div></section>
-<section class="grid"><div class="panel"><h2>Asset telemetry</h2><select id="asset"></select><canvas id="chart" height="190"></canvas></div><div class="panel"><h2>Model performance</h2><pre id="model"></pre></div></section>
-<section class="panel"><h2>Maintenance priorities</h2><div class="table"><table><thead><tr><th>Asset</th><th>Health</th><th>Failure</th><th>RUL</th><th>Anomaly</th><th>Quality</th><th>Drift</th><th>Priority</th></tr></thead><tbody id="table"></tbody></table></div></section>
-<section class="panel"><h2>AI governance</h2><div class="gov"><div><b>Data</b><span>Synthetic telemetry</span></div><div><b>Model</b><span id="govmodel">—</span></div><div><b>Control</b><span>Direct OT control disabled</span></div><div><b>Decision</b><span>Human-in-the-loop</span></div></div></section>
-</main><script src="/static/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Sentinel | Predictive Maintenance</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/static/style.css">
+	<link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+	<header class="topbar">
+		<a class="brand" href="/" aria-label="Sentinel dashboard"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span><strong>Sentinel</strong><small>Predictive maintenance</small></span></a>
+		<div class="topbar-meta"><span class="live-status"><i></i> Live laboratory</span><span id="refreshed" class="updated">Updating...</span></div>
+	</header>
+	<main>
+		<section class="page-intro" aria-labelledby="page-title">
+			<div><p class="eyebrow">Operations overview</p><h1 id="page-title">Fleet condition room</h1><p class="intro-copy">Synthetic critical-energy telemetry, interpreted for maintenance review.</p></div>
+			<div class="safety-note"><span aria-hidden="true">!</span><p><b>Decision support only</b> Direct OT control is disabled.</p></div>
+		</section>
+		<section class="metrics" aria-label="Fleet metrics">
+			<article class="metric-card"><span class="metric-label">Monitored assets</span><strong id="assets">0</strong><small id="predicted">0 assessed by model</small></article>
+			<article class="metric-card critical"><span class="metric-label">Critical review</span><strong id="critical">0</strong><small>Immediate inspection queue</small></article>
+			<article class="metric-card warning"><span class="metric-label">High priority</span><strong id="high">0</strong><small>Schedule maintenance review</small></article>
+			<article class="metric-card"><span class="metric-label">Fleet health</span><strong id="health">0</strong><small>Health index, out of 100</small></article>
+			<article class="metric-card"><span class="metric-label">Failure risk</span><strong id="failure">0%</strong><small>Average projected probability</small></article>
+		</section>
+		<section class="dashboard-grid primary-grid">
+			<article class="panel fleet-panel"><div class="panel-heading"><div><p class="eyebrow">Asset register</p><h2>Fleet health</h2></div><div class="health-key"><span class="good-dot"></span> Stable <span class="warn-dot"></span> Watch <span class="bad-dot"></span> Action</div></div><div id="cards" class="asset-cards" aria-live="polite"></div></article>
+			<aside class="panel scenario-panel"><div class="panel-heading"><div><p class="eyebrow">Controlled simulation</p><h2>Scenario lab</h2></div><span class="lab-tag">SYNTHETIC</span></div><p class="panel-copy">Run a degradation scenario against the synthetic fleet.</p><div class="scenario-list"><button class="scenario-button active" data-s="healthy_fleet"><span>01</span><b>Healthy fleet</b><small>Baseline telemetry</small></button><button class="scenario-button" data-s="bearing_degradation"><span>02</span><b>Bearing degradation</b><small>Pumps and generators</small></button><button class="scenario-button" data-s="pump_cavitation"><span>03</span><b>Pump cavitation</b><small>Pump assets</small></button><button class="scenario-button" data-s="compressor_overheat"><span>04</span><b>Compressor overheat</b><small>Compressor assets</small></button><button class="scenario-button" data-s="sensor_drift"><span>05</span><b>Sensor drift</b><small>Fleet-wide quality change</small></button></div><button id="reset" class="reset-button" type="button">Reset laboratory data</button><p id="result" class="scenario-result" role="status">Baseline telemetry loaded.</p></aside>
+		</section>
+		<section class="dashboard-grid detail-grid">
+			<article class="panel telemetry-panel"><div class="panel-heading"><div><p class="eyebrow">Selected asset</p><h2 id="telemetry-title">Asset telemetry</h2></div><label class="asset-picker"><span>View asset</span><select id="asset" aria-label="Select asset"></select></label></div><div class="chart-wrap"><canvas id="chart" height="230" aria-label="Temperature telemetry chart" role="img"></canvas></div></article>
+			<article class="panel model-panel"><div class="panel-heading"><div><p class="eyebrow">Model assurance</p><h2>Model status</h2></div><span id="model-version" class="model-version">--</span></div><div id="model" class="model-metrics"></div><div id="importance" class="importance-list"></div></article>
+		</section>
+		<section class="panel priorities-panel"><div class="panel-heading"><div><p class="eyebrow">Triage queue</p><h2>Maintenance priorities</h2></div><span id="priority-count" class="queue-count">0 assets</span></div><div class="table-wrap"><table><thead><tr><th>Asset</th><th>Site</th><th>Health</th><th>Failure risk</th><th>RUL</th><th>Anomaly</th><th>Data quality</th><th>Drift</th><th>Priority</th></tr></thead><tbody id="table"></tbody></table></div></section>
+		<section class="governance" aria-label="AI governance controls"><div><span>Data source</span><b>Synthetic telemetry</b></div><div><span>Model</span><b id="govmodel">--</b></div><div><span>Authority</span><b>Human-in-the-loop</b></div><div><span>Control interface</span><b>Disabled</b></div></section>
+	</main>
+	<script src="/static/dashboard.js"></script>
+</body>
+</html>
