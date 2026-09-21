@@ -57,3 +57,9 @@ API docs: http://127.0.0.1:8002/docs
 The project treats AI as decision support. It may identify anomalies, estimate failure probability and RUL, and prioritize maintenance, but it has **no direct equipment-control interface**.
 
 See `docs/references.md` for NIST sources on energy-sector asset management, situational awareness, condition monitoring, and trustworthy AI in critical infrastructure.
+
+## Citation
+
+Friday Ogochukwu Ikwuogu. (2026). *AI-critical-infrastructure-predictive-maintenance: AI-Driven Predictive Maintenance for Critical Infrastructure* (Version v0.1.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.22866367
+
+The DOI for all versions is https://doi.org/10.5281/zenodo.22866366.
