@@ -63,3 +63,7 @@ See `docs/references.md` for NIST sources on energy-sector asset management, sit
 Friday Ogochukwu Ikwuogu. (2026). *AI-critical-infrastructure-predictive-maintenance: AI-Driven Predictive Maintenance for Critical Infrastructure* (Version v0.1.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.22866367
 
 The DOI for all versions is https://doi.org/10.5281/zenodo.22866366.
+
+## AI assistance
+
+**AI assistance:** AI coding tools (Claude, Anthropic) were used for code scaffolding, test fixtures, and documentation drafting. The problem definition, methodology, classification rules, mappings, and analytic decisions are the author's own.
